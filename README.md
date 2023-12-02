@@ -45,6 +45,7 @@ $data = $cash->checkPaymentStatus($key);
 }
 ```
 شرح المفاتيح :
+
 1: amount ~> هو المبلغ اللى وصلك
 2: category ~> نوع محفظتك
 3: date ~> تاريخ الوصول
