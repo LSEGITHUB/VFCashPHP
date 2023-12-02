@@ -38,10 +38,10 @@ $data = $cash->checkPaymentStatus($key);
 "amount":"5.00",
 "category":"VF-Cash",
 "date":"Thu Nov 30 14:43:41 GMT+02:00 2023",
-"id":"004952323803",
-"phone":"01283436803",
+"id":"004952323000",
+"phone":"01234567890",
 "taken":true,
-"user":"MuSQ5ho94PQ4a4GreGSgfzwZqPE2"
+"user":"MuSQ5ho94PQ4a4GreGSgfzwZ"
 }
 ```
 شرح المفاتيح :
