@@ -35,8 +35,8 @@ $data = $cash->checkPaymentStatus($key);
 متغير $data هيكون بيه معلومات عملية الدفع كالآتي:
 ```json
 {
-"amount":"5.00","
-category":"VF-Cash",
+"amount":"5.00",
+"category":"VF-Cash",
 "date":"Thu Nov 30 14:43:41 GMT+02:00 2023",
 "id":"004952323803",
 "phone":"01283436803",
