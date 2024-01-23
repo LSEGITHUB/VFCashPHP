@@ -7,7 +7,7 @@ class VFCash{
         $this->user_id = $user_id;
     }
 
-    public function createPaymentLink($callback_link,$extra){
+    public function createPaymentLink($callback_link,$extra=null){
         $link = $this->link . "?id=" . $this->user_id . "&cb=" . urlencode($callback_link);
         if(!empty($extra)){
             $link .= "&extra=" . $extra;
