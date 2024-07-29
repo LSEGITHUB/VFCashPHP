@@ -8,7 +8,7 @@
 include("VFCash.php");
 
 $cash = VFCash("هنا معرفك");
-$link = $cash->createPaymentLink("هنا رابط العودة");
+$link = $cash->createPaymentLink("هنا رابط العودة","user id");
 ```
 - قم بوضع معرفك فى الكود (احصل عليه من التطبيق) .
 - رابط العودة: هو رابط يتم تحويل المستخدم عليه إذا اكتمل الدفع بنجاح . و يستخدم للتأكد من أن عملية الدفع تمت بنجاح .
@@ -29,6 +29,7 @@ $link = $cash->createPaymentLink("هنا رابط العودة");
 include("VFCash.php");
 
 $key = $_GET["key"];
+$user_id = $_GET["extra"];
 
 $cash = VFCash("هنا معرفك");
 $data = $cash->checkPaymentStatus($key);
@@ -42,7 +43,7 @@ $data = $cash->checkPaymentStatus($key);
 "id":"004952323000",
 "phone":"01234567890",
 "taken":true,
-"user":"MuSQ5ho94PQ4a4GreGSgfzwZ"
+"user":"uSQ5ho94PQ4a4GreG"
 }
 ```
 شرح المفاتيح :
