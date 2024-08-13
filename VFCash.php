@@ -1,6 +1,6 @@
 <?php
 class VFCash{
-    protected $link = "https://stormghosts.pythonanywhere.com/page/vfcash";
+    protected $link = "https://cash.darksidehost.com/page/vfcash";
     protected $user_id;
 
     public function __construct($user_id){
