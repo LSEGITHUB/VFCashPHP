@@ -15,11 +15,24 @@ class VFCash{
         return $link;
     }
 
-    public function checkPaymentStatus($key){
+    public function getPaymentStatus($key){
         $link = $this->link ."?sms_key=" . $key;
         $curld = curl_init();
         curl_setopt($curld, CURLOPT_POST, true);
         $data = array();
+        curl_setopt($curld, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curld, CURLOPT_URL, $link);
+        curl_setopt($curld, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curld);
+        curl_close($curld);
+        return json_decode($output,true);
+    }
+
+    public function checkPayment($phone,$amount,$cb,$extra=null){
+        $link = $this->createPaymentLink($cb,$extra);
+        $curld = curl_init();
+        curl_setopt($curld, CURLOPT_POST, true);
+        $data = array("phone"=>$phone ,"amount"=>$amount ,"api"=>true ,"to"=>"callback");
         curl_setopt($curld, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curld, CURLOPT_URL, $link);
         curl_setopt($curld, CURLOPT_RETURNTRANSFER, true);
