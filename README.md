@@ -7,10 +7,10 @@
 
 - الطريقة الأولى : عمل رابط صفحة الدفع : 
 ```php
-include("VFCash.php");
 
 $cash = new VFCash("هنا معرفك");
 $link = $cash->createPaymentLink("callback link","user id");
+
 ```
 - قم بوضع معرفك فى الكود (احصل عليه من التطبيق) .
 - رابط العودة او callback link: هو رابط يتم تحويل المستخدم عليه إذا اكتمل الدفع بنجاح . و يستخدم للتأكد من أن عملية الدفع تمت بنجاح .
@@ -28,13 +28,13 @@ $link = $cash->createPaymentLink("callback link","user id");
 
 طريقة التحقق من عملية الدفع ، بداخل ملف payment.php :
 ```php
-include("VFCash.php");
 
 $key = $_GET["key"];
 $user_id = $_GET["extra"];
 
 $cash = new VFCash("هنا معرفك");
 $data = $cash->getPaymentStatus($key);
+
 ```
 متغير $data هيكون بيه معلومات عملية الدفع تقدر تستدعى اى قيمة عن طريق $data["id"] ، المفاتيح كالآتي:
 ```json
@@ -63,10 +63,10 @@ $data = $cash->getPaymentStatus($key);
 
 - الطريقة الثانية : عن طريق Api : 
 ```php
-include("VFCash.php");
 
 $cash = new VFCash("هنا معرفك");
 $status = $cash->checkPayment("phone","amount","callback link","user id");
+
 ```
 - قم بوضع معرفك فى الكود (احصل عليه من التطبيق) .
 - رابط العودة او callback link: هو رابط يتم ارسال طلب اليه عن طريق POST فى هذه الحالة . و يستخدم للتأكد من أن عملية الدفع تمت بنجاح . يتم ارسال معه عدده مفاتيح عن طريق GET مثل key و status و extra .
