@@ -7,7 +7,7 @@
 ```php
 include("VFCash.php");
 
-$cash = VFCash("هنا معرفك");
+$cash = new VFCash("هنا معرفك");
 $link = $cash->createPaymentLink("هنا رابط العودة","user id");
 ```
 - قم بوضع معرفك فى الكود (احصل عليه من التطبيق) .
@@ -31,7 +31,7 @@ include("VFCash.php");
 $key = $_GET["key"];
 $user_id = $_GET["extra"];
 
-$cash = VFCash("هنا معرفك");
+$cash = new VFCash("هنا معرفك");
 $data = $cash->checkPaymentStatus($key);
 ```
 متغير $data هيكون بيه معلومات عملية الدفع كالآتي:
