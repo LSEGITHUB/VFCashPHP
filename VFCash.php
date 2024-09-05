@@ -15,8 +15,16 @@ class VFCash{
         return $link;
     }
 
+    public function createPayeerPaymentLink($amount,$callback_link,$extra=null){
+        $link = "https://cash.darksidehost.com/page/payeer?id=" . $this->user_id . "&a=". $amount . "&c=" . urlencode($callback_link);
+        if(!empty($extra)){
+            $link .= "&o=" . $extra;
+        }
+        return $link;
+    }
+
     public function getPaymentStatus($key){
-        $link = $this->link ."?sms_key=" . $key;
+        $link = "https://stormghosts.pythonanywhere.com/page/vfcash?sms_key=" . $key;
         $curld = curl_init();
         curl_setopt($curld, CURLOPT_POST, true);
         $data = array();
