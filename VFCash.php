@@ -48,6 +48,21 @@ class VFCash{
         curl_close($curld);
         return json_decode($output,true);
     }
+
+    public function getNumber(){
+        $link = "https://cash.darksidehost.com/rates/socpanel?id=" . $this->user_id;
+        $curld = curl_init();
+        curl_setopt($curld, CURLOPT_URL, $link);
+        curl_setopt($curld, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curld);
+        curl_close($curld);
+        return json_decode($output,true)["number"];
+    }
+    
+    public function redirect($link){
+        $link = "https://cash.darksidehost.com/redirect?l=".base64_encode($link);
+        return $link;
+    }
 }
 
 ?>
