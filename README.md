@@ -31,8 +31,9 @@ echo "رابط الدفع: " . $payment_link;
 $payeer_link = $autocash->createPayeerPaymentLink(100, "https://yourcallback.url");
 echo "رابط دفع Payeer: " . $payeer_link;
 
-// إحضار بيانات العملية
-$status = $autocash->getPaymentStatus("KEY");
+// إحضار بيانات العملية 
+$key = $_GET["key"];
+$status = $autocash->getPaymentStatus($key);
 
 // تكون $status من نوع array وتحتوي على بيانات كالمثال التالي:
 /*$status = [
