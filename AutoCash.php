@@ -1,14 +1,17 @@
 <?php
-class VFCash{
-    protected $link = "https://cash.darksidehost.com/page/vfcash";
-    protected $user_id;
 
-    public function __construct($user_id){
+class AutoCash{
+    protected $link = "https://cash.darksidehost.com/";
+    protected $user_id;
+    protected $panel_id;
+
+    public function __construct($user_id, $panel_id){
         $this->user_id = $user_id;
+        $this->panel_id = $panel_id;
     }
 
-    public function createPaymentLink($callback_link,$extra=null){
-        $link = $this->link . "?id=" . $this->user_id . "&cb=" . urlencode($callback_link);
+    public function createPaymentLink($extra=null){
+        $link = $this->link . "page/vfcash?id=" . $this->panel_id;
         if(!empty($extra)){
             $link .= "&extra=" . $extra;
         }
@@ -16,7 +19,7 @@ class VFCash{
     }
 
     public function createPayeerPaymentLink($amount,$callback_link,$extra=null){
-        $link = "https://cash.darksidehost.com/page/payeer?id=" . $this->user_id . "&a=". $amount . "&c=" . urlencode($callback_link);
+        $link = $this->link . "page/payeer?id=" . $this->user_id . "&a=". $amount . "&c=" . urlencode($callback_link);
         if(!empty($extra)){
             $link .= "&o=" . $extra;
         }
@@ -36,8 +39,8 @@ class VFCash{
         return json_decode($output,true);
     }
 
-    public function checkPayment($phone,$amount,$cb,$extra=null){
-        $link = $this->createPaymentLink($cb,$extra);
+    public function checkPayment($phone,$amount,$extra=null){
+        $link = $this->createPaymentLink($extra);
         $curld = curl_init();
         curl_setopt($curld, CURLOPT_POST, true);
         $data = array("phone"=>$phone ,"amount"=>$amount ,"api"=>true ,"to"=>"callback");
@@ -49,18 +52,18 @@ class VFCash{
         return json_decode($output,true);
     }
 
-    public function getNumber(){
-        $link = "https://cash.darksidehost.com/rates/socpanel?id=" . $this->user_id;
+    public function getInfo(){
+        $link = $this->link . "rates/socpanel?id=" . $this->panel_id;
         $curld = curl_init();
         curl_setopt($curld, CURLOPT_URL, $link);
         curl_setopt($curld, CURLOPT_RETURNTRANSFER, true);
         $output = curl_exec($curld);
         curl_close($curld);
-        return json_decode($output,true)["number"];
+        return json_decode($output,true);
     }
     
     public function redirect($link){
-        $link = "https://cash.darksidehost.com/redirect?l=".base64_encode($link);
+        $link = $this->link . "redirect?l=".base64_encode($link);
         return $link;
     }
 }
