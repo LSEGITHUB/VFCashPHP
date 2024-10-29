@@ -1,92 +1,69 @@
-# VFCashPHP
-مكتبة استلام مدفوعات تلقائى من فودافون كاش
+# AutoCash
 
-قم بوضع ملف VFCash.php مع ملفاتك و قم باستدعائة ب :
+مكتبة `AutoCash` مكتبة لاستلام المدفوعات تلقائيًا في مصر والعراق.
+
+## المتطلبات
+
+- PHP 7.0 أو أحدث
+- تفعيل cURL في PHP
+
+## التثبيت
+
+بعد تحميل المكتبة، تأكد من إضافة الملف إلى مشروعك واستيراده بشكل صحيح.
+
+## طريقة الاستخدام
+
 ```php
+<?php
 
-include("VFCash.php");
+require_once 'AutoCash.php';
 
+// تهيئة المكتبة مع user_id و panel_id
+$user_id = "YOUR_USER_ID";
+$panel_id = "YOUR_PANEL_ID";
+$autocash = new AutoCash($user_id, $panel_id);
+
+// إنشاء رابط دفع
+$payment_link = $autocash->createPaymentLink($extra = "username");
+echo "رابط الدفع: " . $payment_link;
+
+// إنشاء رابط دفع ل Payeer
+$payeer_link = $autocash->createPayeerPaymentLink(100, "https://yourcallback.url");
+echo "رابط دفع Payeer: " . $payeer_link;
+
+// إحضار بيانات العملية
+$status = $autocash->getPaymentStatus("KEY");
+
+// تكون $status من نوع array وتحتوي على بيانات كالمثال التالي:
+/*$status = [
+    "amount" => "5.00",
+    "category" => "VF-Cash",
+    "date" => "Thu Nov 30 14:43:41 GMT+02:00 2023",
+    "id" => "004952323000",
+    "phone" => "01234567890",
+    "taken" => true,
+    "user" => "uSQ5ho94PQ4a4GreG"
+];*/
+
+// التحقق من عملية دفع تلقائيًا
+$check = $autocash->checkPayment("1234567890", 100);
+
+// تكون $check من نوع array وتحتوي على بيانات كالمثال التالي:
+/*$check = [
+    "status" => true,
+    "message" => "تم إكمال عملية الدفع بنجاح بمبلغ 60 جنية."
+];*/
+
+// الحصول على معلومات لوحة التحكم
+$info = $autocash->getInfo();
+echo "number: " . $info["number"];
+echo "rate: " . $info["rate"];
+echo "currency: " . $info["currency"];
+
+// إنشاء رابط إعادة توجيه لإخفاء بيانات رابط الدفع
+$redirect_link = $autocash->redirect($payment_link);
+echo "رابط إعادة التوجيه: " . $redirect_link;
+
+?>
 ```
 
-- عمل رابط صفحة الدفع لبايير Payeer : 
-```php
-
-$cash = new VFCash("هنا معرفك");
-$link = $cash->createPayeerPaymentLink("amount usd","callback link","user id");
-
-```
-- قم بوضع معرفك فى الكود (احصل عليه من التطبيق) .
-- قم بوضع الكمية المراد من المستخدم تحويلها فى amount usd .
-- رابط العودة او callback link: هو رابط يتم تحويل المستخدم عليه إذا اكتمل الدفع بنجاح . و يستخدم للتأكد من أن عملية الدفع تمت بنجاح .
-
-................................
-
-يوجد طريقتين الأولى عن طريقة صفحة الدفع الخاصة بينا و الثانية عن طريق api .
-
-- الطريقة الأولى : عمل رابط صفحة الدفع لفودافون كاش : 
-```php
-
-$cash = new VFCash("هنا معرفك");
-$link = $cash->createPaymentLink("callback link","user id");
-
-```
-- قم بوضع معرفك فى الكود (احصل عليه من التطبيق) .
-- رابط العودة او callback link: هو رابط يتم تحويل المستخدم عليه إذا اكتمل الدفع بنجاح . و يستخدم للتأكد من أن عملية الدفع تمت بنجاح .
-
- كمثال عملى لعمل صفحة رابط العودة :
- 
-لو افترضنا الآتى ~>
-- دومين موقعك : https://example.com
-
-  - هتفتح مدير ملفات استضافتك او عن طريق ftp هتدخل لمجلد public_html . و تنشئ ملف اسمه payment.php .
-  - بذلك سنجعل رابط العودة هو :
-    https://example.com/payment.php
-
-- عندما يكمل المستخدم الدفع سيتم تحويله إلى هذا الرابط و يتم ارسال مفتاح عن طريق GET يسمى key به معرف العملية تقوم باستخدامه للتحقق من عملية الدفع .
-
-طريقة التحقق من عملية الدفع ، بداخل ملف payment.php :
-```php
-
-$key = $_GET["key"];
-$user_id = $_GET["extra"];
-
-$cash = new VFCash("هنا معرفك");
-$data = $cash->getPaymentStatus($key);
-
-```
-متغير $data هيكون بيه معلومات عملية الدفع تقدر تستدعى اى قيمة عن طريق $data["id"] ، المفاتيح كالآتي:
-```json
-{
-"amount":"5.00",
-"category":"VF-Cash",
-"date":"Thu Nov 30 14:43:41 GMT+02:00 2023",
-"id":"004952323000",
-"phone":"01234567890",
-"taken":true,
-"user":"uSQ5ho94PQ4a4GreG"
-}
-```
-شرح المفاتيح :
-
-- amount ~> هو المبلغ اللى وصلك
-- category ~> نوع محفظتك
-- date ~> تاريخ الوصول
-- id ~> رقم العملية
-- phone ~> الرقم اللى حولك
-- taken ~> بتكون true لو نجح الدفع
-- user ~> هنا معرفك (اللى استلم الرسالة)
-
-
-تقدر تاخد رقم العملية منه و تسجله عندك علشان تكون متأكد ان مفيش حد تانى ينضاف له فلوس .
-
-- الطريقة الثانية : عن طريق Api : 
-```php
-
-$cash = new VFCash("هنا معرفك");
-$status = $cash->checkPayment("phone","amount","callback link","user id");
-
-```
-- قم بوضع معرفك فى الكود (احصل عليه من التطبيق) .
-- رابط العودة او callback link: هو رابط يتم ارسال طلب اليه عن طريق POST فى هذه الحالة . و يستخدم للتأكد من أن عملية الدفع تمت بنجاح . يتم ارسال معه عدده مفاتيح عن طريق GET مثل key و status و extra .
-- ويحتوي متغير $status على مفتاحين status و message . تكون قيمة status هى success عند نجاح الطلب و عندها يرسل طلب ل callback و تكون قيمة status هى fail عند فشل الطلب و عندها لا يرسل طلب ل callback و تحتوي مفتاح message على سبب الفشل . او رسالة النجاح .
-- تقدر تتحقق من العملية فى صفحة callback كما ذكرنا مسبقا فى مرحلة التحقق من عملية الدفع .
