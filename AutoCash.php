@@ -62,6 +62,10 @@ class AutoCash{
         return json_decode($output,true);
     }
     
+    public function getNumber(){
+        return $this->getInfo()["number"];
+    }
+    
     public function redirect($link){
         $link = $this->link . "redirect?l=".base64_encode($link);
         return $link;
