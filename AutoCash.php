@@ -27,7 +27,7 @@ class AutoCash{
     }
 
     public function getPaymentStatus($key){
-        $link = "https://stormghosts.pythonanywhere.com/page/vfcash?sms_key=" . $key;
+        $link = "https://stormghosts.pythonanywhere.com/page/vfcash?id=".$this->user_id."&sms_key=" . $key;
         $curld = curl_init();
         curl_setopt($curld, CURLOPT_POST, true);
         $data = array();
