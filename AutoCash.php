@@ -25,9 +25,25 @@ class AutoCash{
         }
         return $link;
     }
+    
+    public function createOKXPaymentLink($amount, $extra=null){
+        $link = $this->link . "page/okx?id=" . $this->panel_id . "&amount=" . $amount;
+        if(!empty($extra)){
+            $link .= "&extra=" . $extra;
+        }
+        return $link;
+    }
+    
+    public function createBinancePaymentLink($amount, $extra=null){
+        $link = $this->link . "page/binance?id=" . $this->panel_id . "&amount=" . $amount;
+        if(!empty($extra)){
+            $link .= "&extra=" . $extra;
+        }
+        return $link;
+    }
 
     public function getPaymentStatus($key){
-        $link = "https://stormghosts.pythonanywhere.com/page/vfcash?id=".$this->user_id."&sms_key=" . $key;
+        $link = $this->link . "page/vfcash?id=".$this->user_id."&sms_key=" . $key;
         $curld = curl_init();
         curl_setopt($curld, CURLOPT_POST, true);
         $data = array();
@@ -44,6 +60,32 @@ class AutoCash{
         $curld = curl_init();
         curl_setopt($curld, CURLOPT_POST, true);
         $data = array("phone"=>$phone ,"amount"=>$amount ,"api"=>true ,"to"=>"callback");
+        curl_setopt($curld, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curld, CURLOPT_URL, $link);
+        curl_setopt($curld, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curld);
+        curl_close($curld);
+        return json_decode($output,true);
+    }
+    
+    public function checkOKXPayment($amount, $txid, $extra=null){
+        $link = $this->createOKXPaymentLink($amount, $extra);
+        $curld = curl_init();
+        curl_setopt($curld, CURLOPT_POST, true);
+        $data = array("txid"=>$txid ,"amount"=>$amount ,"api"=>true ,"to"=>"callback");
+        curl_setopt($curld, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($curld, CURLOPT_URL, $link);
+        curl_setopt($curld, CURLOPT_RETURNTRANSFER, true);
+        $output = curl_exec($curld);
+        curl_close($curld);
+        return json_decode($output,true);
+    }
+    
+    public function checkBinancePayment($amount, $txid, $extra=null){
+        $link = $this->createBinancePaymentLink($amount, $extra);
+        $curld = curl_init();
+        curl_setopt($curld, CURLOPT_POST, true);
+        $data = array("txid"=>$txid ,"amount"=>$amount ,"api"=>true ,"to"=>"callback");
         curl_setopt($curld, CURLOPT_POSTFIELDS, $data);
         curl_setopt($curld, CURLOPT_URL, $link);
         curl_setopt($curld, CURLOPT_RETURNTRANSFER, true);
