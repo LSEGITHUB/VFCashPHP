@@ -41,8 +41,14 @@ $binance_link = $autocash->createBinancePaymentLink(100, $extra = "username");
 echo "رابط دفع Binance: " . $binance_link;
 
 
-// إحضار بيانات العملية 
+// إحضار بيانات العملية من صفحة callback
 $key = $_GET["key"]; //معرف العملية
+$extra = $_GET["extra"]; //يرجع بالقيمة المسجلة عند انشاء رابط دفع
+$usd = $_GET["usd"]; //سعر العملة بالدولار (متاحه للمحافظ الرقمية فقط)
+$crypto = $_GET["crypto"]; //العملات الرقمية التى كان يجب تحويلها (متاحه للمحافظ الرقمية فقط)
+
+
+//احضار بيانات عملية الدفع بمعرف العملية $key
 $status = $autocash->getPaymentStatus($key);
 
 // تكون $status من نوع array وتحتوي على بيانات كالمثال التالي:
@@ -53,7 +59,8 @@ $status = $autocash->getPaymentStatus($key);
     "id" => "004952323000",
     "phone" => "01234567890",
     "taken" => true,
-    "user" => "uSQ5ho94PQ4a4GreG"
+    "user" => "uSQ5ho94PQ4a4GreG",
+    "usd" => "3.0" //ترجع هذه القيمة فقط عند استخدام المحافظ الرقمية (سعر العملة بالدولار)
 ];*/
 
 // التحقق من عملية دفع تلقائيًا
