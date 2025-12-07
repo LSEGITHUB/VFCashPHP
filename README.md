@@ -64,13 +64,13 @@ $status = $autocash->getPaymentStatus($key);
 ];*/
 
 // التحقق من عملية دفع تلقائيًا
-$check = $autocash->checkPayment("01034567890", 100);
+$check = $autocash->checkPayment($phone="01034567890", $amount=100, $extra="username");
 
 // التحقق من عملية دفع تلقائى OKX
-$check = $autocash->checkOKXPayment($amount = 100, $txid = "معرف العملية");
+$check = $autocash->checkOKXPayment($amount = 100, $txid = "معرف العملية", $extra="username");
 
 // التحقق من عملية دفع تلقائى Binance
-$check = $autocash->checkBinancePayment($amount = 100, $txid = "معرف العملية");
+$check = $autocash->checkBinancePayment($amount = 100, $txid = "معرف العملية", $extra="username");
 
 // تكون $check من نوع array وتحتوي على بيانات كالمثال التالي:
 /*$check = [
