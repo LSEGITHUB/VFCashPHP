@@ -18,13 +18,14 @@ class AutoCash{
         return $link;
     }
 
-    public function createPayeerPaymentLink($amount,$callback_link,$extra=null){
+    //payeer stopped working ...
+    /*public function createPayeerPaymentLink($amount,$callback_link,$extra=null){
         $link = $this->link . "page/payeer?id=" . $this->user_id . "&a=". $amount . "&c=" . urlencode($callback_link);
         if(!empty($extra)){
             $link .= "&o=" . $extra;
         }
         return $link;
-    }
+    }*/
     
     public function createOKXPaymentLink($amount, $extra=null){
         $link = $this->link . "page/okx?id=" . $this->panel_id . "&amount=" . $amount;

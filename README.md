@@ -4,7 +4,7 @@
 
 ## المتطلبات
 
-- PHP 7.0 أو أحدث
+- PHP 7.4 أو أحدث
 - تفعيل cURL في PHP
 
 ## التثبيت
@@ -28,8 +28,9 @@ $payment_link = $autocash->createPaymentLink($extra = "username");
 echo "رابط الدفع: " . $payment_link;
 
 // إنشاء رابط دفع ل Payeer
-$payeer_link = $autocash->createPayeerPaymentLink(100, "https://yourcallback.url");
-echo "رابط دفع Payeer: " . $payeer_link;
+//Payeer توقف عن العمل بداية من 05/01/2026
+//$payeer_link = $autocash->createPayeerPaymentLink(100, "https://yourcallback.url");
+//echo "رابط دفع Payeer: " . $payeer_link;
 
 // إنشاء رابط دفع ل OKX
 $okx_link = $autocash->createOKXPaymentLink(100, $extra = "username");
